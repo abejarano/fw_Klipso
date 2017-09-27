@@ -1,0 +1,14 @@
+<?php
+namespace apps\{%name_app%}\controllers;
+
+use fw_Klipso\kernel\classes\abstracts\aController;
+
+class {%name_app%}Controller extends aController{
+
+    /* Write the code of the methods that are associated with the url.
+    Important the method must be public */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+    }
+}

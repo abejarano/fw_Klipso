@@ -1,0 +1,128 @@
+#!/usr/bin/php
+<?php
+namespace fw_Klipso;
+
+use fw_Klipso\kernel\engine\dataBase\ConexionPDO;
+
+/* determie project directory */
+function folderProject(){
+    $dh = opendir(__DIR__ . '/../');
+    while(($file = readdir($dh)) !== false){
+        if(preg_match("/Project/i", $file)){
+            $dir_project = $file;
+        }
+    }
+    if(empty($dir_project)){
+        die('Unexpected error, unable to determine project directory');
+    }
+    return $dir_project;
+}
+
+
+require __DIR__ . '/kernel/engine/command_line.php';
+require  __DIR__ . '/kernel/engine/functions.php';
+
+spl_autoload_register(function ($nombre_clase) {
+    $file = __DIR__.'/../' . $nombre_clase . '.php';
+    $file =str_replace('\\','/', $file);
+
+    if(file_exists($file))
+        include $file;
+
+});
+
+
+/* Detects if a command specified */
+if (count($argv) == 1){
+    exit('please specify a command');
+}
+
+$command = $argv['1'];
+
+switch ($command){
+    case 'startproject':
+        $name_project = $argv['2'];
+        \fw_Klipso\kernel\engine\startProject($name_project, __DIR__.'/../');
+
+        break;
+
+    case 'startapp':
+        $name_app = $argv['2'];
+        require __DIR__ . '/../' . folderProject().'/settings.php';
+
+        \fw_Klipso\kernel\engine\startApp($name_app, BASE_DIR);
+        break;
+
+    case 'migrate':
+        require __DIR__ . '/../' . folderProject().'/settings.php';
+        if(!defined('DATABASE'))
+            die('Sorry no settings.php is defined in the connection parameters for the database' . PHP_EOL);
+        /* Establishes connection to db */
+        $conexion_pdo = new ConexionPDO();
+
+        /* Detects the default applications to be synchronized  */
+        if(isset($argv['2'])){
+            $app = $argv['2'];
+        }else{
+            $app = 'all';
+        }
+
+        if($app == 'all')
+            \fw_Klipso\kernel\engine\syncDataBase();
+        else
+            \fw_Klipso\kernel\engine\syncDataBase($app);
+
+        break;
+    case 'createsuperuser':
+        require __DIR__ . '/../' . folderProject().'/settings.php';
+        if(!defined('DATABASE'))
+            die('Sorry no settings.php is defined in the connection parameters for the database' . PHP_EOL);
+        /* Establishes connection to db */
+        $conexion_pdo = new ConexionPDO();
+
+        \fw_Klipso\kernel\engine\createSuperUser();
+        break;
+
+    case 'createmodel':
+        require __DIR__ . '/../' . folderProject().'/settings.php';
+        if(!defined('DATABASE'))
+            die('Sorry no settings.php is defined in the connection parameters for the database' . PHP_EOL);
+        /* Establishes connection to db */
+        $conexion_pdo = new ConexionPDO();
+
+        $nombre_modelo = "";
+        $nombre_app = "";
+
+        $isModel =false;
+        $isApp =false;
+
+        while(!$isModel){
+            echo "Enter the name of the model: ";
+            $nombre_modelo = ucwords(strtolower(trim(fgets(STDIN))));
+            $isModel = true;
+
+        }
+
+        while(!$isApp){
+            echo "Enter the name of the app where you want to install the new model: ";
+            $nombre_app = trim(fgets(STDIN));
+            $isApp = true;
+
+        }
+        \fw_Klipso\kernel\engine\createModel($nombre_modelo, $nombre_app, BASE_DIR);
+        break;
+
+    case 'runserver':
+        require __DIR__ . '/../' . folderProject().'/settings.php';
+
+        if(!isset($argv['2']))
+            $server = "localhost:8000";
+        else
+            $server = $argv['2'];
+
+        echo "Warning, this server is only for use in development environment. Not recommended for use in production". PHP_EOL;
+        shell_exec("php -S ".$server." -t ../");
+        break;
+
+   
+}

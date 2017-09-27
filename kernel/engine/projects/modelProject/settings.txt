@@ -1,0 +1,52 @@
+<?php
+namespace {%name_project%};
+
+/* domain name the application web */
+define('DOMAIN_NAME', 'http://localhost');
+
+ /* define your directory main */
+define('BASE_DIR', __DIR__.'/../');
+
+/* the folder folder for file static */
+define('STATICFILES_DIRS', 'static');
+
+/* extension file for templates */
+define('EXT_TEMPLATE','twig');
+
+/* urls for session start */
+define('LOGIN_URL', '/admin/');
+define('LOGOUT_REDIRECT_URL', '/admin/');
+
+define('SECRET_KEY', '56d6d15b9c0034a3f2a3d22731a83610515930aaa0b0e88b0c6f4c1a2fcb4b4e');
+
+/* Lifetime in seconds of cookie */
+define('SESSION_COOKIE_AGE', 86400);
+
+/* applications install */
+define('APP_INSTALL',serialize([
+    'fw_Klipso.applications.login'
+]));
+
+/* Model that is used to register the users of the system and can log in */
+define('USER_MODEL', 'User');
+
+/* parameters for connecting the database */
+define('DATABASE', serialize(array(
+    'ENGINE' => 'pgsql',
+    'PASSWORD' => '',
+    'USER' => '',
+    'NAME' => '',
+    'HOST' => '127.0.0.1',
+    'PORT' => '5432'
+
+)));
+
+/* the name for ntemplate */
+define('TEMPLATE_DIR','templates');
+
+if(isset($_SERVER['REQUEST_URI'])){
+    /* include framework */
+    require BASE_DIR.'fw_Klipso/kernel/engine.php';
+
+    require 'urls.php';
+}

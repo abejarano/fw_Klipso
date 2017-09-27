@@ -1,0 +1,6 @@
+<?php
+session_start();
+ini_set('display_errors', 1);
+date_default_timezone_set('America/Caracas');
+ini_set('session.gc_maxlifetime', '0');
+include '{%name_project%}/settings.php';

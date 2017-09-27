@@ -1,0 +1,22 @@
+<?php
+namespace {%project_name%}_Project;
+
+use fw_Klipso\kernel\engine\middleware;
+
+
+$route = new  middleware\Urls();
+
+/*
+    Write each of the url, example
+    $route->add('','website.WebsiteController.home');
+
+    Website is the application name. WebsiteController is the filename php and the class name and home
+    is the method that is invoked when the url is called from the browser
+
+    In this example, the home of website is in the WebsiteController
+
+    para que alguna parte de la url sea enviada como parametro al controlador debe ser con el siguiente formato de
+        ejemplo P{([0-9]+)}
+*/
+
+$route->submit();
