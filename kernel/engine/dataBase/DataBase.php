@@ -68,7 +68,7 @@ abstract class DataBase
             $var[] = $val;
         }
         $Query = trim($Query,',') . ') VALUES (' . trim($x_var,',') . ')';
-
+        
         return $this->raw($Query,$var);
     }
     /**
@@ -259,7 +259,7 @@ abstract class DataBase
 
 
             $stmt->closeCursor();
-            return $lastInsertId;
+            return intval($lastInsertId);
 
         }
 
