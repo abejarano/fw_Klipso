@@ -1,1 +1,6 @@
 fw_Klipso
+.idea
+.DS_Store
+*.sock
+.vscode
+.vagrant
