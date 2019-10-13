@@ -30,14 +30,13 @@ class {%model%} extends aModels
     {
         /* Create the primary key of your model by creating a variable that stores the field that will be PK. for example.
          * Then returns that variable
-         *
-         * $pk = [
-         *     'campo1'
-         * ];
-         *
-         * return $pk;
-         *
          */
+         $pk = [
+              
+         ];
+         
+         return $pk;
+         
 
     }
 
@@ -45,14 +44,12 @@ class {%model%} extends aModels
     {
         /* Create unique fields for your model by creating a variable that stores those cmpos. for example.
          * Then returns that variable
-         *
-         * $uniq = [
-         *     'campo1'
-         * ];
-         *
-         * return $uniq;
-         *
          */
+        $uniq = [
+        
+        ];
+        return $uniq;
+        
     }
 
     public function __foreignKey()
@@ -67,7 +64,11 @@ class {%model%} extends aModels
          * return $fk;
          *
          */
+        $fk = [
 
+        ];
+
+        return $fk;
 
     }
     public function __getPrefix()
