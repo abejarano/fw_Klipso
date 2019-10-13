@@ -295,11 +295,13 @@ class Migrations{
         else
             $current_struct_model = [];
 
-        #se compra la estructura de campos
-        $field_diff = array_diff( $field, $current_struct_model['fields']);
-        if (count($field_diff) > 0){
-            Migrations::setApplyAlterFieldModel($tableModel, $table_name, $field_diff);
-            Migrations::setRegisterStructureModel($tableModel, $app);
+        if (!empty($current_struct_model)) { 
+            #se compra la estructura de campos
+            $field_diff = array_diff( $field, $current_struct_model['fields']);
+            if (count($field_diff) > 0){
+                Migrations::setApplyAlterFieldModel($tableModel, $table_name, $field_diff);
+                Migrations::setRegisterStructureModel($tableModel, $app);
+            }
         }
             
     }
