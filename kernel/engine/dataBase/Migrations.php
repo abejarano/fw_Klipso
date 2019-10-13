@@ -282,8 +282,8 @@ class Migrations{
         $sql = "select structure
                 from fw_klipso_migrations 
                 where app_name = '".$app."' and model_name = '".$table_name."'
-                group by structure, date_applied
-                having max(date_applied) = date_applied limit 1";
+                group by date_applied desc 
+                limit 1";
 
         #echo $table_name;
 
@@ -296,8 +296,11 @@ class Migrations{
 
         #se compra la estructura de campos
         $field_diff = array_diff( $field, $current_struct_model['fields']);
-        if (count($field_diff) > 0)
+        if (count($field_diff) > 0){
             Migrations::setApplyAlterFieldModel($tableModel, $table_name, $field_diff);
+            Migrations::setRegisterStructureModel($tableModel, $app);
+        }
+            
     }
 
     private static function setApplyAlterFieldModel(aModels $instance_model, $name_model, Array $field){
@@ -306,7 +309,6 @@ class Migrations{
                     
             $instance_model->raw($alter);
             echo 'Alter apply column '.$key . PHP_EOL;
-            
         }
         
     }
@@ -316,7 +318,7 @@ class Migrations{
      * @param $name_model model name
      */
     #private static function setRegisterMigrations(aModels $tableModel, $type_structure, $app, $model, Array $struct){
-    public static function setRegisterStructureModel(aModels $tableModel, $applications_name){
+    public static function setRegisterStructureModel(aModels $tableModel, $applications_name, $debug=false){
 
         $struct_model = [
             'fields' => $tableModel->__fields__(),
@@ -325,7 +327,10 @@ class Migrations{
             'foreign_key' => $tableModel->__foreignKey()
         ];
 
-
+        if($debug) {
+            print_r($struct_model);
+            die();
+        }
         $query = "insert into fw_klipso_migrations(app_name,model_name, structure)values(?,?,?)";
         $data = [
             $applications_name,
