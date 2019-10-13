@@ -225,7 +225,7 @@ class Migrations{
             }
         }else{
             /* si no tiene primary key se le crea uno, primero se agrega el campo */
-            $field_pk = $tableModel->__getNameModel() . '_id';
+            $field_pk = 'id';
             $create .= $field_pk . ' ' . DataType::FieldAutoField() . ',';
 
             /* se crea el pk */
