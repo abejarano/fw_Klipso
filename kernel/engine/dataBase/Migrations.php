@@ -272,7 +272,7 @@ class Migrations{
      * @param aModels $tableModel Name of the model that is currently running
      */
     private static function  alterModel(aModels $tableModel, $app){
-        $field = $tableModel->__fields__();
+        $field = (Array) $tableModel->__fields__();
         $pk = $tableModel->__setPrimary();
         $uniq = $tableModel->__setUnique();
         $fk = $tableModel->__foreignKey();
