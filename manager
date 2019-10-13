@@ -99,6 +99,9 @@ switch ($command){
         while(!$isModel){
             echo "Enter the name of the model: ";
             $nombre_modelo = ucwords(strtolower(trim(fgets(STDIN))));
+            $nombre_modelo = ucfirst(str_replace('_',' ', $nombre_modelo));
+            $nombre_modelo = str_replace(' ', '', $nombre_modelo);
+            
             $isModel = true;
 
         }
