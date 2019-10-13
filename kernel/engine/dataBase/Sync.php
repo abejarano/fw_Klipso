@@ -60,8 +60,8 @@ function createAlter($app){
                 if(preg_match("/class /", $linea)){
                     $class_model = getInstancModel($linea);
                     $obj_model = new $class_model;
-                    Migrations::_foreignKey($obj_model);
-                    Migrations::setRegisterStructureModel($obj_model, $app);
+                    Migrations::_foreignKey($obj_model, $app);
+                    
                 }
 
             }

@@ -87,7 +87,7 @@ class Migrations{
      * @param $table_reference Nombre del model foraneo
      * @param $field_reference Campo del modelo foraneo
      */
-    public static function _foreignKey(aModels $tableModel){
+    public static function _foreignKey(aModels $tableModel, $app){
         $array_fk = $tableModel->__foreignKey();
 
         if(empty($array_fk))
@@ -127,6 +127,7 @@ class Migrations{
                     #excuete create forenkey
                     $tableModel->raw($sql_fk[1]);
                     echo 'ForeigKey ' . $tableModel->__getNameModel() . ' create finish' . PHP_EOL;
+                    Migrations::setRegisterStructureModel($tableModel, $app);
                 }
             }catch (\PDOException $q){
                 if($q->getMessage() != 'SQLSTATE[HY000]: General error'){
