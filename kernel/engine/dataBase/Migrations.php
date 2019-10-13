@@ -89,7 +89,8 @@ class Migrations{
      */
     public static function _foreignKey(aModels $tableModel){
         $array_fk = $tableModel->__foreignKey();
-        if(count($array_fk) ==0)
+
+        if(empty($array_fk))
             return;
 
         $nameModel = $tableModel->__getNameModel();
@@ -232,8 +233,9 @@ class Migrations{
         }
 
         /* verifica si tiene unique */
-        if(count($tableModel->__setUnique()) > 0){
-            $create .= Migrations::_unique($tableModel->__setUnique());
+        
+        if( !empty($tableModel->__setUnique()) ){
+            $create .= Migrations::_unique( (Array) $tableModel->__setUnique());
         }
 
         $create = trim($create,', ') . ')';
