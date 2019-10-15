@@ -29,10 +29,12 @@ class Request{
             $validate_toke = true;
         }
 
-        if($validate_toke)
+        if($validate_toke) {
             if(!Request::checkCSRFTOKEN()){
                 return;
             }
+        }
+            
 
         if(isset($_GET) && count($_GET) > 0){
             $this->setGet();
@@ -54,7 +56,7 @@ class Request{
         if(in_array(trim($uri, '/'), Request::$excepCSRFTOKEN)){
             return true;
         }
-        if(!isset($_REQUEST['csrftoken']) || $_REQUEST['csrftoken'] != $_SESSION['csrftoken']){
+        if(!isset($_POST['csrftoken']) || $_POST['csrftoken'] != $_SESSION['csrftoken']){
             die('
                     <h1>forbidden 403</h1>
                     <p>CSRFTOKEN in '.$uri.'</p>

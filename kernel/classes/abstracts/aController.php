@@ -63,6 +63,11 @@ abstract class aController{
      * @param $context array de datos que se pasaran al template
      */
     public function render($template, $context = null){
+        /* detectar si se está intentando renderizar un template basando en una peticion POST */
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            redirect($_SERVER['HTTP_ORIGIN']);
+        }
+        
         /* se identifica el nombre del dominio de la aplicacion web */
         if(!defined('DOMAIN_NAME') ||  empty(DOMAIN_NAME)){
             die('Sorry, in the settings.php file you must define the constant DOMAIN_NAME or give a value to that constant');
