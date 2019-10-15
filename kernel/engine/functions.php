@@ -133,20 +133,25 @@ function setLanguage(){
         define('LANGUAGE', DEFAULT_LANGUAGE,true);
         return;
     }
-    $array_language = unserialize(LANGUAGES);
-    $languages = explode(',',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    /*  */
+    
     $set_language = false;
-    foreach ($languages as $key => $value) {    
-        $lang = explode('-', $value);
-        if(array_key_exists($lang[0], $array_language)){
-            define('LANGUAGE', $lang[0],true);
-            $set_language = true;
-        }        
-            
+    if (defined('LANGUAGES')) {
+        $array_language = unserialize(LANGUAGES);
+        $languages = explode(',',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        
+        
+        foreach ($languages as $key => $value) {    
+            $lang = explode('-', $value);
+            if(array_key_exists($lang[0], $array_language)){
+                define('LANGUAGE', $lang[0],true);
+                $set_language = true;
+            }        
+                
+        }
     }
+    
     if(!$set_language)
-        define('LANGUAGE', DEFAULT_LANGUAGE,true);
+        define('LANGUAGE', 'es', true); 
 
     #print_r($array_language);
 }

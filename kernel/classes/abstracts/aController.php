@@ -58,6 +58,10 @@ abstract class aController{
     private function addContextLanguageSelected($context){
         return array_merge($context, array('LANGUAGE' => LANGUAGE));
     }
+    /**
+     * @param $template nombre del template que se va a renderizar
+     * @param $context array de datos que se pasaran al template
+     */
     public function render($template, $context = null){
         /* se identifica el nombre del dominio de la aplicacion web */
         if(!defined('DOMAIN_NAME') ||  empty(DOMAIN_NAME)){
