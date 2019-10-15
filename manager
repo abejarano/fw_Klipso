@@ -123,7 +123,9 @@ switch ($command){
         else
             $server = $argv['2'];
 
-        echo "Warning, this server is only for use in development environment. Not recommended for use in production". PHP_EOL;
+        echo "Warning, this server is only for use in development environment. 
+        Not recommended for use in production". PHP_EOL;
+        echo "Server run in port 8000 ". PHP_EOL;
         shell_exec("php -S ".$server." -t ../");
         break;
 
