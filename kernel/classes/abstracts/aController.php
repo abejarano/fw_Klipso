@@ -103,7 +103,7 @@ abstract class aController{
 
     }
     private function setCompleteLinkUrl($template){
-        $url_static_fiel = DOMAIN_NAME . '/' . STATICFILES_DIRS;
+        $url_static_fiel = '/' . STATICFILES_DIRS;
 
         $tpl = str_replace('{ DOMAIN_NAME }',DOMAIN_NAME,str_replace('{DOMAIN_NAME}', DOMAIN_NAME, $template));
         $tpl = str_replace('{ STATICFILE_DIR }',$url_static_fiel,str_replace('{STATICFILE_DIR}', $url_static_fiel, $tpl));
