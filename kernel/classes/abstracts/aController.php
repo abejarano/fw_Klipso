@@ -53,7 +53,7 @@ abstract class aController{
         return $context;
     }
     private function addContextURLCurrent($context){
-        return array_merge($context, array('CURRENT_URL' => URL()));
+        return array_merge($context, array('URL_CURRENT' => URL()));
     }
     private function addContextLanguageSelected($context){
         return array_merge($context, array('LANGUAGE' => LANGUAGE));
@@ -86,14 +86,12 @@ abstract class aController{
 
         #detectar nombre una carpeta que anteponga  el nombre del template que se desea renderizar
         $count_folder = explode('/', $template);
-        #print_r($count_folder);
         
         if(count($count_folder) > 1){
-            $this->setStartEngineTemplate($this->path_app.TEMPLATE_DIR.'/'.$count_folder[0].'/');
-            #echo $this->path_app.TEMPLATE_DIR.'/'.$count_folder[0].'/'.$count_folder[1];
+            $this->setStartEngineTemplate( BASE_DIR . TEMPLATE_DIR . '/' .$count_folder[0].'/');
             $template = $count_folder[1];
         }else
-            $this->setStartEngineTemplate($this->path_app.TEMPLATE_DIR);
+            $this->setStartEngineTemplate(BASE_DIR . TEMPLATE_DIR);
         
 
         $twig = new Twig_Environment($this->loader_template);
