@@ -289,7 +289,7 @@ class Migrations{
         #echo $table_name;
 
         $current_struct_model = $tableModel->raw($sql);
-
+        $current_struct_model = json_decode(json_encode($current_struct_model), True);
         if(count($current_struct_model) > 0)
             $current_struct_model = unserialize($current_struct_model['structure']);
         else
@@ -298,6 +298,7 @@ class Migrations{
         if (!empty($current_struct_model)) { 
             #se compra la estructura de campos
             $field_diff = array_diff( $field, $current_struct_model['fields']);
+            
             if (count($field_diff) > 0){
                 Migrations::setApplyAlterFieldModel($tableModel, $table_name, $field_diff);
                 Migrations::setRegisterStructureModel($tableModel, $app);
