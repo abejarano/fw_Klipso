@@ -46,6 +46,11 @@
                 exit('Could not create directory for static fiel images');
             }
 
+            /* create folder template or project */
+            if(!mkdir($this->base_dir . 'templates', 0655)){
+                exit('Could not create directory for template');
+            }
+
             /* create example file settings for project */
             #copy($file_settings, $name_project . '/settings.php');
             $this->setCreateFileSettingProject($name_project);
