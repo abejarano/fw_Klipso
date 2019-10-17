@@ -2,7 +2,6 @@
 
 namespace fw_Klipso\applications\login\models;
 
-use fw_Klipso\kernel\classes\abstracts\aModels;
 use fw_Klipso\kernel\engine\dataBase\DataType;
 use fw_Klipso\kernel\engine\dataBase\TypeFields;
 
@@ -28,6 +27,8 @@ class User extends aModels
             'user_email' => DataType::FieldString(200,true),
             'user_login' => DataType::FieldString(100,true),
             'user_pass' => DataType::FieldString(100, true),
+            'user_is_superuser' => DataType::FieldString(1, true, 'N'),
+            'user_is_staff' => DataType::FieldString(1, true, 'N'),
             'user_active' => DataType::FieldBoolean(true,true),
         ];
         return $field;
