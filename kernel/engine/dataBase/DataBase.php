@@ -12,8 +12,9 @@ abstract class DataBase
     private $db = "";
     protected $_where = "";
     protected $_limit = "";
-    protected $_join = array();
-    protected $_field_join = array();
+    protected $_join = [];
+    protected $_field_join = [];
+    protected $_SQL = "";
 
     abstract public function __getNameModel();
     abstract protected function __getFieldsModel();
@@ -23,7 +24,7 @@ abstract class DataBase
         return $conexion_pdo;
     }
 
-    private function getSelectiveFields(Array $fields){
+    protected function getSelectiveFields(Array $fields){
         $select = "";
         
         foreach ($fields as $model => $value) {
@@ -92,7 +93,7 @@ abstract class DataBase
     public function update(Array $value){        
         #$Query = "UPDATE " . $this->__getNameModel() . " set  ";
 
-        
+        $Query = "";
         foreach ($value as $key => $val){
             $Query .= $key . "=?,";
             $var[] = $val;
@@ -132,58 +133,7 @@ abstract class DataBase
             die();
         }
     }
-    /**
-     * Crea una consulta a la db
-     * @param string $field campos que retornara la consulta.
-     * @return array Arrray con el resultado de la consulta.
-     */
-    public function find($field = "", $order_by = ""){
-        $SELECT = "SELECT ";
-
-        if(!empty($field) && !is_array($field))
-            $this->checkFieldExistsModel($field);
-
-        elseif (is_array($field)) 
-            $field = $this->getSelectiveFields($field);
-
-        else
-            $field = $this->__getFieldsModel();
-   
-        # si e mayor a cero entonces la consulta es un inner join
-        if(count($this->_join) > 0)
-            $SELECT .= $field . $this->getInnerJoin() .' '. $this->_where;
-            
-        else
-            $SELECT .= $field . ' FROM ' .$this->__getNameModel().' '. $this->_where;
-
-        if(!empty($order_by)){
-
-            $array_order = explode(",", $order_by);
-
-            if ($array_order[0] == '-')
-                $SELECT .= " ORDER BY ".$array_order[1] . " desc ";
-            else
-                $SELECT .= " ORDER BY ".$array_order[1] . " asc ";
-        }
-
-
-        if(!empty($this->_limit))
-            $SELECT .= $this->_limit;
-
-        try {
-            
-            return $this->raw($SELECT);
-        } catch (\Exception $e) {
-
-            echo '<pre>';
-            echo $e->getMessage() . PHP_EOL;
-            print_r($e->getTraceAsString());
-            die();
-        }
-
-
-
-    }
+    
     private function getInnerJoin(){
         /*print_r($this->_join);
         die();*/
@@ -220,7 +170,7 @@ abstract class DataBase
         $tipo_sentencia = substr($sql, 0,6);
 
         if(preg_match('/select/', strtolower($tipo_sentencia))){
-            $result = $stmt->fetchAll($this->DB()->fetch_style('FETCH_ASSOC'));
+            $result = $stmt->fetchAll($this->DB()->fetch_style('FETCH_CLASS'));
 
             $stmt->closeCursor();
             if(count($result) == 1)
@@ -269,6 +219,19 @@ abstract class DataBase
             if(preg_match("/serial/", $val)){
                 return $key;
             }
+        }
+    }
+
+    public function exec() {
+        try {
+
+            return $this->raw($this->_SQL . $this->_where);
+        } catch (\Exception $e) {
+
+            echo '<pre>';
+            echo $e->getMessage() . PHP_EOL;
+            print_r($e->getTraceAsString());
+            die();
         }
     }
 }
