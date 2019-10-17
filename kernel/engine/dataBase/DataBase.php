@@ -3,7 +3,7 @@
 
 namespace fw_Klipso\kernel\engine\dataBase;
 
-use fw_Klipso\kernel\classes\abstracts\aModels;
+use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 
 
 

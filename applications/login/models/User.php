@@ -4,6 +4,7 @@ namespace fw_Klipso\applications\login\models;
 
 use fw_Klipso\kernel\engine\dataBase\DataType;
 use fw_Klipso\kernel\engine\dataBase\TypeFields;
+use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 
 class User extends aModels
 {
