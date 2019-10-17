@@ -2,7 +2,7 @@
 
 namespace apps\{%app%}\models;
 
-use fw_Klipso\kernel\classes\abstracts\aModels;
+use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 use fw_Klipso\kernel\engine\dataBase\Constrainst;
 use fw_Klipso\kernel\engine\dataBase\DataType;
 use fw_Klipso\kernel\engine\dataBase\TypeFields;
