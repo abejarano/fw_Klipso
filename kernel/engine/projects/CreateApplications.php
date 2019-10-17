@@ -23,8 +23,8 @@
             mkdir($folder_new_app, 0755);
 
             /* create folder for the project templates */
-            if(!file_exists($folder_new_app . '/templates'))
-                mkdir($folder_new_app . '/templates', 0755);
+            if(!file_exists($this->base_dir . 'templates/' . strtolower($this->name)))
+                mkdir($this->base_dir . 'templates/' . strtolower($this->name), 0655);
 
             /* create folder for the application controllers*/
             mkdir($folder_new_app . '/controllers',0755);
