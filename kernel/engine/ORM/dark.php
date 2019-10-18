@@ -84,11 +84,11 @@ class Dark extends DataBase {
                 $where .= $_field . " = $value and ";
         }
         $where = trim($where,' and ');
-        #echo  $where . PHP_EOL;
+
         if ($where == " where ")
             return "";
         else
-            return $where;
+            return " ".$where;
 
     }
 

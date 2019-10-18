@@ -224,7 +224,8 @@ abstract class DataBase
 
     public function exec() {
         try {
-
+            /*echo $this->_SQL . $this->_where;
+            die();*/
             return $this->raw($this->_SQL . $this->_where);
         } catch (\Exception $e) {
 
