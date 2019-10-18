@@ -4,8 +4,8 @@ namespace fw_Klipso\kernel\engine\ORM\abstracts;
 use fw_Klipso\kernel\engine\ORM\Dark;
 
 abstract class aModels extends Dark {
-    private $structModel = array();
-    private static $fields = array();
+    private $structModel = [];
+    protected static $fields = [];
     private static $_model = '';
     private $uniq;
     private $pk;
