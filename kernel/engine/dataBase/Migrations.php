@@ -1,7 +1,7 @@
 <?php
 namespace fw_Klipso\kernel\engine\dataBase;
 
-use fw_Klipso\kernel\classes\abstracts\aModels;
+use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 use fw_Klipso\kernel\engine\dataBase\Func\Fw_Klipso_Migrations;
 
 class Migrations{
@@ -181,6 +181,7 @@ class Migrations{
                 break;
         }
         $data = $tableModel->raw($query);
+        $data = json_decode(json_encode($data), True);
         if($data['existe'] == 0){
             return false;
         }else{
@@ -204,6 +205,7 @@ class Migrations{
 
 
         $data = $tableModel->raw($query);
+        $data = json_decode(json_encode($data), True);
         if($data['existe'] == 0){
             return false;
         }else{
