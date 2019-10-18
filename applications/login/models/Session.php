@@ -3,10 +3,9 @@
 namespace fw_Klipso\applications\login\models;
 
 //include BASE_DIR . '/fw_klipso/kernel/engine/dataBase/TypeFields.php';
-use fw_Klipso\kernel\classes\abstracts\aModels;
 use fw_Klipso\kernel\engine\dataBase\DataType;
 use fw_Klipso\kernel\engine\dataBase\TypeFields;
-
+use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 
 class Session extends aModels{
     private $prefix_model = 'fw_klipso';
