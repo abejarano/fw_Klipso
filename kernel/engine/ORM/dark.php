@@ -8,6 +8,7 @@
 namespace fw_Klipso\kernel\engine\ORM;
 
 use fw_Klipso\kernel\engine\dataBase\DataBase;
+use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 
 class Dark extends DataBase {
     protected $model;
@@ -145,7 +146,7 @@ class Dark extends DataBase {
 
         else
             $field = $this->__getFieldsModel();
-        
+
         $SELECT .= $field . ' FROM ' .$this->__getNameModel();
 
         $this->_SQL = $SELECT;
