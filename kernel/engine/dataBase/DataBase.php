@@ -259,8 +259,13 @@ abstract class DataBase
                     $this->_SQL = "SELECT " . $this->__getFieldsModel();
                 }
             }
-            /*echo $this->_SQL . $this->_where;
-            die();*/
+
+            $_join = '';
+            foreach ($this->_join as $join) {
+                $_join .= ' ' . $join;
+            }
+            $sql = $this->_SQL . $_join . $this->_where;
+            # pr($sql);
             return $this->raw($this->_SQL . $this->_where);
         } catch (\Exception $e) {
 

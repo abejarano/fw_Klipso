@@ -27,22 +27,15 @@ class Dark extends DataBase {
     public function with($model, $type_join = "INNER") {
 
         if (!is_array($model)) {
-            $this->makeWith($model, $type_join);
+            $this->prepareInnerJoin($model, $type_join);
             return $this;
         }
 
         foreach ($model as $val) {
-            $this->makeWith($val, $type_join);
+            $this->prepareInnerJoin($val, $type_join);
         }
 
         return $this;
-    }
-
-    private function makeWith($model, $type_join) {
-        switch ($type_join) {
-            case 'INNER':
-                $this->prepareInnerJoin($model);
-        }
     }
 
     /**
