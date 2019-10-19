@@ -16,24 +16,26 @@ trait DinamyORM
     {
         $this->data[$name] = $value;
     }
+    public function __unset($name)
+    {
+        unset($this->data[$name]);
+    }
 
-     public function __get($name)
-     {
-
-         if (array_key_exists($name, $this->data)) {
-             return $this->data[$name];
-         }
-
-         $trace = debug_backtrace();
-         trigger_error(
+    public function __get($name)
+    {
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+        $trace = debug_backtrace();
+        trigger_error(
              'Propiedad indefinida mediante __get(): ' . $name .
              ' en ' . $trace[0]['file'] .
              ' en la línea ' . $trace[0]['line'],
              E_USER_NOTICE);
-         return null;
-     }
+        return null;
+    }
 
-     public function getAttributes() {
+    public function getAttributes() {
         return $this->data;
-     }
+    }
 }

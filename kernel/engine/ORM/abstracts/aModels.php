@@ -21,17 +21,20 @@ abstract class aModels extends Dark {
     public function __construct($search_prefix = false)
     {
         aModels::$_model = $this->detectNameModel();
-        #aModels::$fields = array();
-        if(!$search_prefix){
 
-            $this->structModel = $this->__fields__();
+        $this->structModel = $this->__fields__();
 
-            $this->uniq = $this->__setUnique();
-            $this->pk = $this->__setPrimary();
-            $this->fk = $this->__foreignKey();
-
-            $this->extractFields();
+        # coloca a disposicion cada campo del modelo como un atributo de la clase
+        foreach ($this->structModel as $key => $val) {
+            $this->$key = '';
         }
+
+        $this->uniq = $this->__setUnique();
+        $this->pk = $this->__setPrimary();
+        $this->fk = $this->__foreignKey();
+
+        $this->extractFields();
+
         
     }
     private function detectNameModel(){

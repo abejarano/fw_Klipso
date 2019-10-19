@@ -59,7 +59,21 @@ abstract class DataBase
      * @param array $values Is an array where the index is the field of the field and the value is the value that will
      * be saved in that field
      */
-    public function save(Array $values){
+    public function save(Array $values = []){
+        if (count($values) == 0) {
+            # checar que los valores lo tenga los atributos de la clase
+            $values = $this->getAttributes();
+        }
+        # validate campos
+        foreach ($values as $field => $val) {
+            if (!$this->checkFieldExistsModel($field) ) {
+                unset($values[$field]);
+                unset($this->$field);
+            }
+
+        }
+        pr($values);
+
         $var = [];
         $x_var = "";
         $Query = "INSERT INTO " . $this->__getNameModel() . "(";
@@ -73,6 +87,7 @@ abstract class DataBase
         
         return $this->raw($Query,$var);
     }
+
     /**
      * Ejecuta un delete;
      */
@@ -147,7 +162,12 @@ abstract class DataBase
     protected function checkFieldExistsModel($field){
         $array_field = explode(',', $field);
         foreach ($array_field as $value){
-            return aModels::findFieldModel($value, false);
+            try {
+                return aModels::findFieldModel($value, false);
+            } catch (\Exception $e) {
+                return false;
+            }
+
         }
         return '';
     }
