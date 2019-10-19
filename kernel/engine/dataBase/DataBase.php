@@ -4,11 +4,12 @@
 namespace fw_Klipso\kernel\engine\dataBase;
 
 use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
-
+use fw_Klipso\kernel\engine\ORM\DinamyORM;
 
 
 abstract class DataBase
 {
+    use DinamyORM;
     private $db = "";
     protected $_where = "";
     protected $_limit = "";
@@ -173,10 +174,18 @@ abstract class DataBase
             $result = $stmt->fetchAll($this->DB()->fetch_style('FETCH_CLASS'));
 
             $stmt->closeCursor();
-            if(count($result) == 1)
-                return $result[0];
-            else
+
+            if(count($result) > 1)
                 return $result;
+
+            $array = $result[0];
+            foreach ($array as $key => $val) {
+                $this->$key = $val;
+            }
+
+            return $result[0];
+
+
 
         }else if(preg_match('/delete/', strtolower($tipo_sentencia)) || preg_match('/update/', strtolower($tipo_sentencia))){
             $afectados = $stmt->rowCount();
