@@ -144,7 +144,7 @@ abstract class DataBase
         }
         return $inner;
     }
-    private function checkFieldExistsModel($field){
+    protected function checkFieldExistsModel($field){
         $array_field = explode(',', $field);
         foreach ($array_field as $value){
             return aModels::findFieldModel($value, false);

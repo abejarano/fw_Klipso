@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Es la iniciativa de crear un ORM funcional facil de usar, que cumpla con el principio de portabilidad
  * User: abejarano
