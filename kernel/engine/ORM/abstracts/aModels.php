@@ -95,7 +95,9 @@ abstract class aModels extends Dark {
      * @return bool True si el campo pertenece al modelo y False y no pertenece
      */
     public static function findFieldModel($name_field, $return_type = true){
-        
+        if ($name_field == 'id') {
+            return 'NUMBER';
+        }
         foreach (aModels::$fields as $value){
             foreach ($value as $field => $type){
                 $field_array = explode(".",$field);
