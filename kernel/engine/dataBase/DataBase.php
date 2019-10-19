@@ -5,17 +5,15 @@ namespace fw_Klipso\kernel\engine\dataBase;
 
 use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
 use fw_Klipso\kernel\engine\ORM\DinamyORM;
+use fw_Klipso\kernel\engine\ORM\QueryBuilder;
 
 
 abstract class DataBase
 {
     use DinamyORM;
+    use QueryBuilder;
+
     private $db = "";
-    protected $_where = "";
-    protected $_limit = "";
-    protected $_join = [];
-    protected $_field_join = [];
-    protected $_SQL = "";
 
     abstract public function __getNameModel();
     abstract protected function __getFieldsModel();

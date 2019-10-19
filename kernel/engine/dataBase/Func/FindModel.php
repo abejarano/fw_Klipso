@@ -15,6 +15,7 @@ class FindModel
 
     public function __construct($model)
     {
+        $model = ucwords($model);
         $this->soughtModel = $model . '.php';
         $this->searchApps();
 
