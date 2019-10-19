@@ -265,7 +265,7 @@ abstract class DataBase
                 $_join .= ' ' . $join;
             }
             $sql = $this->_SQL . $_join . $this->_where;
-            # pr($sql);
+             pr($sql);
             return $this->raw($this->_SQL . $this->_where);
         } catch (\Exception $e) {
 

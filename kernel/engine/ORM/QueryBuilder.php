@@ -84,8 +84,8 @@ trait QueryBuilder
         foreach ($_model_foreign->__foreignKey() as $field_related => $val_fk){
             foreach ($pk_model as $pk_model_related){
                 if(preg_match('/('.$pk_model_related.')/', $val_fk, $coincidencias, PREG_OFFSET_CAPTURE, 3)){
-                    $field_related_join = $_model_main->__getNameModel() . '.' . $pk_model_related;
-                    $field_related_model = $this->__getNameModel() . '.' . $field_related;
+                    $field_related_join =  $this->__getNameModel() . '.' . $pk_model_related;
+                    $field_related_model = $_model_foreign->__getNameModel() . '.' . $field_related;
                 }
             }
         }
