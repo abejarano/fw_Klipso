@@ -292,10 +292,12 @@ class Migrations{
 
         $current_struct_model = $tableModel->raw($sql);
         $current_struct_model = json_decode(json_encode($current_struct_model), True);
-        if(count($current_struct_model) > 0)
+
+        if (is_array($current_struct_model) && count($current_struct_model) > 0) {
             $current_struct_model = unserialize($current_struct_model['structure']);
-        else
+        } else {
             $current_struct_model = [];
+        }
 
         if (!empty($current_struct_model)) { 
             #se compra la estructura de campos

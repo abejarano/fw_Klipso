@@ -196,14 +196,15 @@ abstract class DataBase
             if(count($result) > 1)
                 return $result;
 
-            $array = $result[0];
-            foreach ($array as $key => $val) {
-                $this->$key = $val;
+            $array = stdClassToArray($result[0]);
+            # pr($array);
+
+            if (is_array($array)) {
+                foreach ($array as $key => $val) {
+                    $this->$key = $val;
+                }
             }
-
             return $result[0];
-
-
 
         }else if(preg_match('/delete/', strtolower($tipo_sentencia)) || preg_match('/update/', strtolower($tipo_sentencia))){
             $afectados = $stmt->rowCount();

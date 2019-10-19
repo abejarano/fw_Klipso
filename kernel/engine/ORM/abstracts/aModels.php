@@ -47,11 +47,12 @@ abstract class aModels extends Dark {
         return strtolower($model_name);
     }
     private function extractFields(){
+
         if(count($this->structModel) == 0)
             die('Not defined the structure of the model '.$this->__getNameModel().' is possibly not returning the fields, foreign keys and unique 
             fields when you typed the model.' .  PHP_EOL);
-
-        foreach ($this->structModel as $key => $value){
+        # pr(count($this->structModel));
+        foreach ($this->structModel as $key => $value) {
             /* obtiene el tipo de dato, simplicandolos a solo numericos y de cadena */
 
             if(preg_match('/BIGINT/', $value) ||
@@ -79,8 +80,10 @@ abstract class aModels extends Dark {
                 $tipo_dato = 'STRING';
             }
             aModels::$fields[] = [ $this->model . '.' . trim($key) => $tipo_dato];
+
             #$this->fields[] = trim($key);
         }
+
         
     }   
     private function setTable($table){

@@ -165,3 +165,7 @@ function pr($r) {
     print_r($r);
     die();
 }
+
+function stdClassToArray($cls) {
+    return json_decode(json_encode($cls), True);
+}
