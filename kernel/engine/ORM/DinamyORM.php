@@ -32,4 +32,8 @@ trait DinamyORM
              E_USER_NOTICE);
          return null;
      }
+
+     public function getAttributes() {
+        return $this->data;
+     }
 }

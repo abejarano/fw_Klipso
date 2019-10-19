@@ -159,3 +159,9 @@ function setLanguage(){
 function URL(){
     return '/' . Request::$current_url;
 }
+
+function pr($r) {
+    echo '<pre>';
+    print_r($r);
+    die();
+}
