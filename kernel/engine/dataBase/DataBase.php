@@ -14,6 +14,7 @@ abstract class DataBase
     use QueryBuilder;
 
     private $db = "";
+    protected $_prepared_data = [];
     protected $structModel = [];
     abstract public function __getNameModel();
     abstract protected function __getFieldsModel();
@@ -176,7 +177,7 @@ abstract class DataBase
      * @param array $data son los valores que tendra los parametros del SQL, ejemplo $var = [1]
      * @return un ResultSet de la base de datos.
      */
-    public function raw($sql, $data = array(), $return = true){
+    public function raw($sql, $data = [], $return = true){
         $stmt = $this->DB()->prepare($sql);
 
         if(empty($data))
@@ -265,8 +266,8 @@ abstract class DataBase
                 $_join .= ' ' . $join;
             }
             $sql = $this->_SQL . $_join . $this->_where;
-             pr($sql);
-            return $this->raw($this->_SQL . $this->_where);
+            #pr($sql);
+            return $this->raw($sql, $this->_prepared_data);
         } catch (\Exception $e) {
 
             echo '<pre>';

@@ -114,7 +114,7 @@ abstract class aModels extends Dark {
                 }
             }
         }
-        throw new \Exception("The field $name_field does not exist in the model ");
+        throw new \Exception("The field $name_field does not exist in the model " . aModels::$_model);
     }
 
 }

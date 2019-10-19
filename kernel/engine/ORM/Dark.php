@@ -10,6 +10,7 @@ namespace fw_Klipso\kernel\engine\ORM;
 
 use fw_Klipso\kernel\engine\dataBase\DataBase;
 use fw_Klipso\kernel\engine\ORM\abstracts\aModels;
+use mysql_xdevapi\Exception;
 
 class Dark extends DataBase {
     protected $model;
@@ -99,7 +100,7 @@ class Dark extends DataBase {
 
     }
 
-   /**
+    /**
      * Crea una consulta a la db
      * @param string $field campos que retornara la consulta.
      */
@@ -126,13 +127,13 @@ class Dark extends DataBase {
 
     }
 
-   /**
+    /**
      * Extrae los campos de la estructura del model, y los coloca en el array fields siendo el nombre del campo
      * la llave y el valor el tipo de dato
     */
-   public function __getStructModel(){
+    public function __getStructModel(){
         return $this->structModel;
-   }
+    }
 
     /**
      * @return string Retorna los campos separados por coma (,)
@@ -149,6 +150,34 @@ class Dark extends DataBase {
 
     public function __getNameModel(){
         return $this->model;
+    }
+
+    /**
+     * @param $field Nombbre del campo del modelo
+     * @param array $val Array de valores
+     * @return $this
+     */
+    public function WhereIn($field, Array $array_val) {
+        # checar que el campo exista en el modelo
+        try {
+            aModels::findFieldModel($field);
+            if (empty($this->_where)) {
+                $_w = ' WHERE ' . $field . ' IN (';
+            } else {
+                $_w = ' AND ' . $field . ' IN (';
+            }
+
+            foreach ($array_val as $val) {
+                $_w .= '?,';
+                $this->_prepared_data = array_merge($this->_prepared_data, [$val]);
+            }
+            $this->_where .= trim($_w, ',') . ')';
+            #pr($this->_prepared_data);
+        }catch (\Exception $e) {
+            pr($e->getMessage());
+        }
+
+        return $this;
     }
 
 }

@@ -21,7 +21,7 @@ trait QueryBuilder
     protected function prepareInnerJoin($foreign_model, $type_inner = 'INNER') {
         /* obtiene el array de fk del model principal */
         $class = get_class($this);
-        echo $class;
+        #echo $class;
         $obj_class = new $class;
         $fk = $obj_class->__foreignKey();
         /* busca e instancia el modelo con el que se desea hacer join */
@@ -114,8 +114,12 @@ trait QueryBuilder
 
         $SELECT .= $field;
         $this->_SQL = $SELECT;
-        echo $this->_SQL;
+        #echo $this->_SQL;
         return $this;
+
+    }
+
+    protected function createWhereIn() {
 
     }
 }
