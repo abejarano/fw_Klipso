@@ -119,7 +119,31 @@ trait QueryBuilder
 
     }
 
-    protected function createWhereIn() {
+    protected function getWhere($field, $stn = '=') {
+        # checar que el campo exista en el modelo
+        try {
+            aModels::findFieldModel($field);
 
+            if ($stn == 'IN' || $stn == 'NOT IN' || $stn == 'OR') {
+                if (empty($this->_where)) {
+                    $_w = ' WHERE ' . $field . ' ' .$stn. ' (';
+                } else {
+                    $_w = ' AND ' . $field . ' ' .$stn. ' (';
+                }
+
+
+            } else {
+                if (empty($this->_where)) {
+                    $_w = ' WHERE ' . $field . ' = ';
+                } else {
+                    $_w = ' AND ' . $field . ' = ';
+                }
+            }
+
+            return $_w;
+
+        } catch (\Exception $e) {
+            pr($e->getMessage());
+        }
     }
 }

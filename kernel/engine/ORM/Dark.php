@@ -40,67 +40,6 @@ class Dark extends DataBase {
     }
 
     /**
-     * Crea un la clausula where
-     * @param array $conditions son las condiciones que debe cumplir el query para poder ejecutar una sentencia SQL
-     * @return $this
-     */
-    public function where(Array $conditions){
-        if(count($conditions) > 0)
-            $this->_where = $this->renderWhere($conditions);
-
-        return $this;
-    }
-
-    /**
-     * Verifica que los campos involucrados en la condicion existen en el modelo
-     * @param $conditions array de condiciones que se colocan en la clausula where del query
-     * @return Retorna el where listo para ser usado por el query
-     */
-    private function renderWhere($conditions) {
-        $where = " WHERE ";
-        $simbolo = "";
-        foreach ($conditions as $key => $val){
-            # obtener nombre del campo
-            if(preg_match('/{/', $key)){
-                $pos_field = strpos($key,'{');
-                $_field = substr($key,0,$pos_field);
-            }else{
-                $_field = $key;
-            }
-
-            if(preg_match('/{=}/', $key)){
-                $simbolo = ' = ';
-            }
-
-            /* si tiene un or, in, not in elimina el signo de llaves */
-            if(preg_match('/{or}/', $key))
-                $simbolo =  str_replace('{or}', 'OR', $val);
-            else if(preg_match('/{in}/', $key))
-                $simbolo =  str_replace('{in}', 'IN', $val);
-            else if(preg_match('/{not in}/', $key))
-                $simbolo =  str_replace('{in}', 'NOT IN', $val);
-
-            $type = aModels::findFieldModel(strtolower($_field));
-            $value = strtolower((strip_tags($val)));
-
-            if($type == 'STRING')
-                $value = "'".$value."'";
-            
-            if(!empty($simbolo))
-                $where .= $_field . $simbolo . " $value and ";
-            else
-                $where .= $_field . " = $value and ";
-        }
-        $where = trim($where,' and ');
-
-        if ($where == " where ")
-            return "";
-        else
-            return " ".$where;
-
-    }
-
-    /**
      * Crea una consulta a la db
      * @param string $field campos que retornara la consulta.
      */
@@ -157,26 +96,28 @@ class Dark extends DataBase {
      * @param array $val Array de valores
      * @return $this
      */
-    public function WhereIn($field, Array $array_val) {
-        # checar que el campo exista en el modelo
-        try {
-            aModels::findFieldModel($field);
-            if (empty($this->_where)) {
-                $_w = ' WHERE ' . $field . ' IN (';
-            } else {
-                $_w = ' AND ' . $field . ' IN (';
-            }
+    public function whereIn($field, Array $array_val) {
+        $_w = $this->getWhere($field, 'IN');
 
-            foreach ($array_val as $val) {
-                $_w .= '?,';
-                $this->_prepared_data = array_merge($this->_prepared_data, [$val]);
-            }
-            $this->_where .= trim($_w, ',') . ')';
-            #pr($this->_prepared_data);
-        }catch (\Exception $e) {
-            pr($e->getMessage());
+        foreach ($array_val as $val) {
+            $_w .= '?,';
+            $this->_prepared_data = array_merge($this->_prepared_data, [$val]);
         }
+        $this->_where .= trim($_w, ',') . ')';
+        #pr($this->_prepared_data);
 
+        return $this;
+    }
+
+    /**
+     * Crea un la clausula where
+     * @param array $conditions son las condiciones que debe cumplir el query para poder ejecutar una sentencia SQL
+     * @return $this
+     */
+    public function where($field, $value){
+        $_w = $this->getWhere($field, '=') . '?';
+        $this->_prepared_data = array_merge($this->_prepared_data, [$value]);
+        $this->_where .= $_w;
         return $this;
     }
 
