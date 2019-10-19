@@ -114,11 +114,21 @@ class Dark extends DataBase {
      * @param array $conditions son las condiciones que debe cumplir el query para poder ejecutar una sentencia SQL
      * @return $this
      */
-    public function where($field, $value){
-        $_w = $this->getWhere($field, '=') . '?';
-        $this->_prepared_data = array_merge($this->_prepared_data, [$value]);
-        $this->_where .= $_w;
+    public function where($field, $value = ''){
+
+        if (!is_array($field)) {
+            $this->_where .= $this->getWhere($field, '=') . '?';
+            $this->_prepared_data = array_merge($this->_prepared_data, [$value]);
+        } else {
+            #pr($field);
+            foreach ($field as $_field => $val) {
+                $this->_where .= $this->getWhere($_field, '=') . '?';
+                $this->_prepared_data = array_merge($this->_prepared_data, [$val]);
+            }
+        }
+
         return $this;
     }
+
 
 }
