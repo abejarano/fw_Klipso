@@ -14,7 +14,7 @@ abstract class DataBase
     use QueryBuilder;
 
     private $db = "";
-
+    protected $structModel = [];
     abstract public function __getNameModel();
     abstract protected function __getFieldsModel();
 
@@ -251,6 +251,13 @@ abstract class DataBase
 
     public function exec() {
         try {
+            if (empty($this->_SQL)) {
+                if (count($this->_join) == 0) {
+                    $this->_SQL = "SELECT " . $this->__getFieldsModel() . " FROM " .$this->__getNameModel();
+                } else {
+                    $this->_SQL = "SELECT " . $this->__getFieldsModel();
+                }
+            }
             /*echo $this->_SQL . $this->_where;
             die();*/
             return $this->raw($this->_SQL . $this->_where);

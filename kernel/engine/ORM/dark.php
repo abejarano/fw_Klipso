@@ -111,6 +111,9 @@ class Dark extends DataBase {
      * @param string $field campos que retornara la consulta.
      */
     public function find($field = ""){
+
+        # echo get_class($this);
+        # die();
         $SELECT = "SELECT ";
 
         if(!empty($field) && !is_array($field))
@@ -133,20 +136,20 @@ class Dark extends DataBase {
    /**
      * Extrae los campos de la estructura del model, y los coloca en el array fields siendo el nombre del campo
      * la llave y el valor el tipo de dato
-     */
-    protected  function __getStructModel(){
+    */
+   public function __getStructModel(){
         return $this->structModel;
-    }
+   }
 
     /**
      * @return string Retorna los campos separados por coma (,)
      */
     protected function __getFieldsModel(){
         $fields = "";
-        foreach (aModels::$fields as $value){
-            foreach ($value as $field => $type){
-                $fields .= $field.  ', ';
-            }
+        foreach ($this->structModel as $field => $value){
+
+            $fields .= $field.  ', ';
+
         }
         return trim($fields, ', ');
     }

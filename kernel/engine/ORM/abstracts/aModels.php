@@ -4,7 +4,6 @@ namespace fw_Klipso\kernel\engine\ORM\abstracts;
 use fw_Klipso\kernel\engine\ORM\Dark;
 
 abstract class aModels extends Dark {
-    private $structModel = [];
     protected static $fields = [];
     private static $_model = '';
     private $uniq;
@@ -34,7 +33,6 @@ abstract class aModels extends Dark {
         $this->fk = $this->__foreignKey();
 
         $this->extractFields();
-
         
     }
     private function detectNameModel(){
