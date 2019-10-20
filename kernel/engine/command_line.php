@@ -7,7 +7,7 @@
  */
 namespace fw_Klipso\kernel\engine;
 
-use fw_Klipso\applications\login\Login;
+use fw_Klipso\applications\login\Auth;
 
 function startProject($name_project, $base_dir){
     /* Detects if a name for project specified */
@@ -82,7 +82,7 @@ function createSuperUser(){
       try{
 
         $sql = "insert into ".getPrefixModel(USER_MODEL) . '_'.strtolower(USER_MODEL). " 
-        (user_login,user_email,user_pass) values ('".$username."', '".$email."', '".Login::getEncryptPass($pass)."')";
+        (user_login,user_email,user_pass) values ('".$username."', '".$email."', '".Auth::getEncryptPass($pass)."')";
 
         $conexion_pdo->exec($sql);
 

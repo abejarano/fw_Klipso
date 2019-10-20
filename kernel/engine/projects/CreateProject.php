@@ -47,7 +47,7 @@
             }
 
             /* create folder template or project */
-            if(!mkdir($this->base_dir . 'templates', 0655)){
+            if(!mkdir($this->base_dir . 'Views', 0655)){
                 exit('Could not create directory for template');
             }
 
