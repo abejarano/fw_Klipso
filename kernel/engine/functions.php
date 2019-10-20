@@ -5,14 +5,15 @@ use Slug\Slugifier;
 /** Para rediccionar a una url
  * @param $url
  */
- function redirect($url, $message = ""){
-     $redirec = trim(DOMAIN_NAME,'/') .'/'. trim($url,'/');
-     if(empty($message))
-         header('Location: ' . $url);
-     else
+function redirect($url, $message = "")
+{
+    if(empty($message))
+        header('Location: ' . $url);
+    else
         header('Location: ' . $url . '?message='.$message);
 
- }
+    exit;
+}
 
 function slug($string){
     $slug = new Slugifier();
