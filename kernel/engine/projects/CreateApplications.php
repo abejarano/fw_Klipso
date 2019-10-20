@@ -22,9 +22,9 @@
             $folder_new_app = $folder_app .'/'. ucwords($this->name);
             mkdir($folder_new_app, 0755);
 
-            /* create folder for the project templates */
-            if(!file_exists($this->base_dir . 'templates/' . strtolower($this->name)))
-                mkdir($this->base_dir . 'templates/' . strtolower($this->name), 0655);
+            /* create folder for the project Views */
+            if(!file_exists($this->base_dir . 'Views/' . strtolower($this->name)))
+                mkdir($this->base_dir . 'Views/' . strtolower($this->name), 0655);
 
             /* create folder for the application controllers*/
             mkdir($folder_new_app . '/controllers',0755);

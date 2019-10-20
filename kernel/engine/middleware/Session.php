@@ -34,7 +34,7 @@ class Session extends DataBase{
 
         $id_session = $this->setSession('sessionid', $this->getGenerateSecretKey());
 
-        $array_encrypt = array();
+        $array_encrypt = [];
         foreach ($data as $key => $val){
             $array_encrypt[$key] = Session::getEncrypt($val);
         }
@@ -53,6 +53,7 @@ class Session extends DataBase{
             $_SESSION["sessionid"] = $id_session;
             return true;
         }catch(\PDOException $e){
+            redirect(LOGIN_URL);
             die($e->getMessage());
             return false;
         }
@@ -74,7 +75,7 @@ class Session extends DataBase{
         }
 
         $data = [];
-
+        Session::$data_session_register = stdClassToArray(Session::$data_session_register);
         foreach (unserialize(Session::$data_session_register['session_data']) as $key => $value){
 
             $data[$key] = Session::getDecrypt($value);
