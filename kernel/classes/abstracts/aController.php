@@ -43,13 +43,17 @@ abstract class aController{
         return $context;
     }
     private function addContextDataSession($context){
-        if (!isset($_SESSION["sessionid"]))
+        if (!isset($_SESSION["sessionid"])) {
+            $context = array_merge($context, ['is_auth' => false]);
             return $context;
+        }
+
 
         $data = Session::getDataSesion();
         foreach ($data as $key => $val){
             $context = array_merge($context, array($key=>$val));
         }
+        $context = array_merge($context, ['is_auth' => true]);
         return $context;
     }
     private function addContextURLCurrent($context){

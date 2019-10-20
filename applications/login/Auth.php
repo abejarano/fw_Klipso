@@ -4,11 +4,11 @@ use fw_Klipso\kernel\engine\middleware\Response;
 use fw_Klipso\kernel\engine\middleware\Session;
 
 
-class Login extends Session {
+class Auth extends Session {
     private $model = '';
 
     /**
-     * Login constructor. Espera como parametro el nombre del campo login usado en el modelo, y el nombre del campo pass
+     * Auth constructor. Espera como parametro el nombre del campo login usado en el modelo, y el nombre del campo pass
      * usado en el modelo.
      * @param $field_name_user
      * @param $fiel_name_pass
@@ -16,6 +16,7 @@ class Login extends Session {
     public function __construct($field_name_login = '', $fiel_name_pass = '')
     {
         $prefix = getPrefixModel(USER_MODEL);
+
         if(!empty($prefix))
             $this->model = $prefix .'_'. strtolower(USER_MODEL);
         else
@@ -55,17 +56,25 @@ class Login extends Session {
         
         $redirec = trim(DOMAIN_NAME,'/') .'/'. trim(LOGIN_URL,'/');
         $sql = "select * from  ". $this->model . " where lower(" . $this->field_name_login . ") = ?";
+
         $rs = $this->raw($sql,[$user]);
+
+        $rs = stdClassToArray($rs);
+
         if(empty($rs)){
             if (!$ajax)
                 redirect($redirec, 'The user is not registered');
-            return false;
+            else
+                return false;
         
 
-        }if($rs[$this->fiel_name_pass] != Login::getEncryptPass($pass)){
-            if (!$ajax)
+        } if($rs[$this->fiel_name_pass] != Auth::getEncryptPass($pass)){
+
+            if (!$ajax) {
                 redirect($redirec, 'Invalid password');
-            return false;
+                return false;
+            } else
+                return false;
         }
 
         /* se quita el camo pass de los datos que se van a registrar en la session */

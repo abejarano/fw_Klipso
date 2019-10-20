@@ -34,10 +34,8 @@ class Urls{
      * Process the url request
      */
     public function submit(){
-        /*echo '<pre>';
-        print_r($this->_pattern);
-        die();*/
         $encontro = false;
+        #pr($this->_pattern);
         foreach ($this->_pattern as $key => $value){
             /* verificar si el patron de url definidor en el urls.php es el mismo que la url que se esta solicitando */
             $current_url =  trim($this->current_url,'/');
