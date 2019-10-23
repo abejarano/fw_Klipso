@@ -93,7 +93,7 @@ class Urls{
             die('La aplicación ' . $application . ' no se encuentra instalada');
         }
 
-        $controller = new $namespace(BASE_DIR . 'apps/' . $application . '/');
+        $controller = new $namespace('apps\\' . $application);
         //$controller->setPathApplication('apps\\' .$application .'\\');
 
         if(empty($method)){
