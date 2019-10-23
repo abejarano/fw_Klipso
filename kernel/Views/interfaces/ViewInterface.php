@@ -12,6 +12,6 @@ interface ViewInterface
     public function save_post(Request $request);
     public function update_post(Request $request);
     public function get_paginate(Request $request);
-
+    public function make();
 
 }

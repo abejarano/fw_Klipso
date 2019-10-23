@@ -12,32 +12,19 @@ namespace fw_Klipso\kernel\Views;
 use fw_Klipso\kernel\classes\abstracts\aController;
 use fw_Klipso\kernel\engine\middleware\Request;
 use fw_Klipso\kernel\Views\interfaces\ViewInterface;
+use fw_Klipso\kernel\Views\forms\Forms;
 
-abstract class CreateView extends aController implements ViewInterface
+class CreateView extends aController implements ViewInterface
 {
     public $model_name = '';
     public $template_name = '';
     public $redirect = '';
-    private $path_app = '';
 
     public function __construct($app)
     {
         parent::__construct($app);
-        $this->path_app = $app;
-        if(empty($this->redirect)) {
-            pr('Define a redirect URL using the redirect attribute');
-        }
-        if(empty($this->model_name)) {
-            pr('You must define the name of the model that will be used to generate the form');
-        }
 
-        Forms::setModel($this->model_name);
-
-        $this->get();
-    }
-
-    private function get() {
-
+        Forms::setPathApp($app);
     }
 
     public function save_post(Request $request)
@@ -53,6 +40,20 @@ abstract class CreateView extends aController implements ViewInterface
     public function get_paginate(Request $request)
     {
         // TODO: Implement get_paginate() method.
+    }
+
+    public function make()
+    {
+        
+        if(empty($this->redirect)) {
+            pr('Define a redirect URL using the redirect attribute');
+        }
+
+        if(empty($this->model_name)) {
+            pr('You must define the name of the model that will be used to generate the form');
+        }
+
+        Forms::setModel($this->model_name);
     }
 
 }
