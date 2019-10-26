@@ -7,8 +7,9 @@ namespace fw_Klipso\kernel\classes\abstracts;
 
 
 use fw_Klipso\kernel\engine\middleware\Session;
-use Twig_Loader_Filesystem;
-use Twig_Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
+use Twig\Extension\EscaperExtension;
 
 abstract class aController{
 
@@ -60,7 +61,7 @@ abstract class aController{
         return array_merge($context, array('URL_CURRENT' => URL()));
     }
     private function addContextLanguageSelected($context){
-        return array_merge($context, array('LANGUAGE' => LANGUAGE));
+        #return array_merge($context, array('LANGUAGE' => LANGUAGE));
     }
     /**
      * @param $template nombre del template que se va a renderizar
@@ -86,7 +87,7 @@ abstract class aController{
         $context = $this->addContextMessage($context);
         $context = $this->addContextDataSession($context);
         $context = $this->addContextURLCurrent($context);
-        $context = $this->addContextLanguageSelected($context);
+        #$context = $this->addContextLanguageSelected($context);
 
         #detectar nombre una carpeta que anteponga  el nombre del template que se desea renderizar
         $count_folder = explode('/', $template);
@@ -98,9 +99,13 @@ abstract class aController{
             $this->setStartEngineTemplate(BASE_DIR . TEMPLATE_DIR);
         
 
-        $twig = new Twig_Environment($this->loader_template);
-       # echo $template.'.' . EXT_TEMPLATE;
+        $twig = new Environment($this->loader_template);
+
+
+        # echo $template.'.' . EXT_TEMPLATE;
+
         if(!empty($context)){
+
             $tpl = $twig->render($template.'.' . EXT_TEMPLATE, $context);
         }else{
             $tpl = $twig->render($template.'.' . EXT_TEMPLATE);
@@ -127,7 +132,7 @@ abstract class aController{
         if(!file_exists($this->dir_template)){
             die('El directorio para las vistas no esta creado, consulte el archivo settings.php y cree el directorio por favor');
         }
-        $this->loader_template = new Twig_Loader_Filesystem($this->dir_template);
+        $this->loader_template = new FilesystemLoader($this->dir_template);
 
         
     }

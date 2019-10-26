@@ -19,6 +19,8 @@ class CreateView extends aController implements ViewInterface
     public $model_name = '';
     public $template_name = '';
     public $redirect = '';
+    public $settings_form = [];
+    private $html_form = '';
 
     public function __construct($app)
     {
@@ -44,7 +46,7 @@ class CreateView extends aController implements ViewInterface
 
     public function make()
     {
-        
+
         if(empty($this->redirect)) {
             pr('Define a redirect URL using the redirect attribute');
         }
@@ -54,6 +56,21 @@ class CreateView extends aController implements ViewInterface
         }
 
         Forms::setModel($this->model_name);
+        $this->setFieldForm();
+        $this->render($this->template_name,['form' => $this->html_form, 'saludo' => 'hola']);
+    }
+
+    private function setFieldForm() {
+        if (empty($this->settings_form)) {
+            pr('vacio');
+        }
+        $this->html_form = '<form method="post" >';
+        foreach ($this->settings_form as $field) {
+            if( is_array($field) ) {
+                $this->html_form .= Forms::setField($field);
+            }
+        }
+        $this->html_form .= '</form>';
     }
 
 }

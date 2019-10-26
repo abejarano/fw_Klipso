@@ -54,28 +54,29 @@ abstract class aModels extends Dark {
         # pr(count($this->structModel));
         foreach ($this->structModel as $key => $value) {
             /* obtiene el tipo de dato, simplicandolos a solo numericos y de cadena */
+            $val = $value[0];
 
-            if(preg_match('/BIGINT/', $value) ||
-                preg_match('/INTEGER/', $value) ||
-                preg_match('/NUMERIC/', $value) ||
-                preg_match('/REAL/', $value) ||
-                preg_match('/REAL/', $value) ||
-                preg_match('/serial/', $value) ||
-                preg_match('/AUTO INCREMENT/', $value) ||
-                preg_match('/bool/', $value) ||
-                preg_match('/boolean/', $value) ||
-                preg_match('/DECIMAL/', $value)
+            if(preg_match('/BIGINT/', $val) ||
+                preg_match('/INTEGER/', $val) ||
+                preg_match('/NUMERIC/', $val) ||
+                preg_match('/REAL/', $val) ||
+                preg_match('/REAL/', $val) ||
+                preg_match('/serial/', $val) ||
+                preg_match('/AUTO INCREMENT/', $val) ||
+                preg_match('/bool/', $val) ||
+                preg_match('/boolean/', $val) ||
+                preg_match('/DECIMAL/', $val)
             ){
 
                 $tipo_dato = 'NUMERIC';
             }
-            if(preg_match('/char/', $value) ||
-                preg_match('/text/', $value) ||
-                preg_match('/datetime/', $value) ||
-                preg_match('/timestamp without time zone/', $value) ||
-                preg_match('/date/', $value) ||
-                preg_match('/character varying/', $value) ||
-                preg_match('/varchar/', $value)
+            if(preg_match('/char/', $val) ||
+                preg_match('/text/', $val) ||
+                preg_match('/datetime/', $val) ||
+                preg_match('/timestamp without time zone/', $val) ||
+                preg_match('/date/', $val) ||
+                preg_match('/character varying/', $val) ||
+                preg_match('/varchar/', $val)
             ){
                 $tipo_dato = 'STRING';
             }
