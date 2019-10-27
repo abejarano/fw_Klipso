@@ -66,11 +66,9 @@ class CreateView extends aController implements ViewInterface
         }
         $this->html_form = '<form method="post" >';
         foreach ($this->settings_form as $field) {
-            if( is_array($field) ) {
-                $this->html_form .= Forms::setField($field);
-            }
+            $this->html_form .= Forms::setField($field);
         }
-        $this->html_form .= '</form>';
+        $this->html_form .= '</form>' .Forms::getKeypad();
     }
 
 }

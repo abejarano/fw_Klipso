@@ -59,6 +59,10 @@ class Forms
                     $html .= Forms::setHtmlForm($_f);
                     $html .= '</div>';
                 }
+            } else {
+                $html .= '<div class = "col col-12">';
+                $html .= Forms::setHtmlForm($field);
+                $html .= '</div>';
             }
 
             $html .= '</div>';
@@ -71,6 +75,9 @@ class Forms
         $type = $data_field[0];
         $label = $data_field[1];
         $required = $data_field[2];
+        $combo = $data_field[3];
+        $type_field = 'input';
+
         if (empty($type)) {
             pr('Field not found ' . $nam_field);
         }
@@ -83,15 +90,43 @@ class Forms
             preg_match('/AUTO INCREMENT/', $type) ||
             preg_match('/DECIMAL/', $type)
         ){
+            $type_input = "number";
 
-            return '<div class="form-group">
-                        <label for="id_'.$nam_field.'">'.$label.'</label>
-                        <input type = "number" name = "'.$nam_field.'" class = "form-control" 
-                        id="id_'.$nam_field.' ">
-                   </div>';
 
+        } elseif(preg_match('/char/', $type) ||
+            preg_match('/text/', $type) ||
+            preg_match('/character varying/', $type) ||
+            preg_match('/varchar/', $type)
+        ){
+
+            if ( is_array($combo)) {
+                $type_field = 'combo';
+                $html_combo = '<div class="form-group">
+                                    <label for="id_'.$nam_field.'">'.$label.'</label>
+                                    <select name = "'.$nam_field.'" class = "form-control" id="id_'.$nam_field.'">
+                                   ';
+                foreach ($combo as $key => $val) {
+                    $html_combo .= '<option value="'.$key.'">'.$val.'</option>';
+                }
+                $html_combo .= '</div></select>';
+            }
+
+        } else if (preg_match('/datetime/', $type) ||
+            preg_match('/timestamp without time zone/', $type) ||
+            preg_match('/date/', $type)
+        ) {
+
+            $type_input = "date";
         }
-
+        switch ($type_field) {
+            case 'combo':
+                return $html_combo;
+            case 'input':
+                return '<div class="form-group">
+                        <label for="id_'.$nam_field.'">'.$label.'</label>
+                        <input type = "'.$type_input.'" name = "'.$nam_field.'" class = "form-control" id="id_'.$nam_field.'">
+                   </div>';
+        }
 
     }
 
@@ -104,5 +139,17 @@ class Forms
         }
 
         return '';
+    }
+
+    public static function getKeypad() {
+        return '
+        <section class="mt-4 p-2">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-info btn-sm mr-3">Graba y añadir otror</button>
+                <button class="btn btn-info btn-sm mr-3">Grabar y contignuar editando</button>
+                <button class="btn btn-primary btn-sm">GRABAR</button>
+            </div>
+        </section>
+        ';
     }
 }
