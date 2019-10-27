@@ -9,6 +9,7 @@
 
 namespace fw_Klipso\kernel\Views\forms;
 
+use fw_Klipso\kernel\Views\forms\ValidateForms;
 
 class Forms
 {
@@ -25,10 +26,10 @@ class Forms
 
     public static function setModel($model) {
         Forms::$_model = ucfirst($model);
-        Forms::__loadFieldMoel();
+        Forms::__loadFieldModel();
     }
 
-    private static function __loadFieldMoel() {
+    private static function __loadFieldModel() {
         # instanciar la clave model
         $path_model = Forms::$_path_app . '\\models\\' .Forms::$_model;
 
@@ -37,6 +38,7 @@ class Forms
         }
         
         $objModel = new $path_model;
+
 
         Forms::$_fields_model = $objModel->__fields__();
 
@@ -143,6 +145,7 @@ class Forms
 
     public static function getKeypad() {
         return '
+        <input type="hidden" value="'.$_SESSION['csrftoken'].'" name="csrftoken">
         <section class="mt-4 p-2">
             <div class="d-flex justify-content-end">
                 <button class="btn btn-info btn-sm mr-3">Graba y añadir otror</button>
