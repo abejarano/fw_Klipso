@@ -11,6 +11,7 @@ namespace fw_Klipso\kernel\Views;
 
 use fw_Klipso\kernel\classes\abstracts\aController;
 use fw_Klipso\kernel\engine\middleware\Request;
+use fw_Klipso\kernel\Views\forms\ValidateForms;
 use fw_Klipso\kernel\Views\interfaces\ViewInterface;
 use fw_Klipso\kernel\Views\forms\Forms;
 
@@ -22,16 +23,24 @@ class CreateView extends aController implements ViewInterface
     public $settings_form = [];
     private $html_form = '';
 
+    private $_validate_form;
+
     public function __construct($app)
     {
         parent::__construct($app);
 
         Forms::setPathApp($app);
+        $this->_validate_form = new ValidateForms($app);
     }
 
     public function save_post(Request $request)
     {
-        // TODO: Implement save_post() method.
+        $this->_validate_form->__loadFieldMoel($this->model_name);
+
+        $response = $this->_validate_form->fieldRequired($request->_postAll());
+        if ($response['status'] == 'failed') {
+            redirect($this->redirect, $response['message']);
+        }
     }
 
     public function update_post(Request $request)

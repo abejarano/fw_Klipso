@@ -105,7 +105,7 @@ class Urls{
             # pero tiene definido un metodo por default
             if ( preg_match('/CreateView/', get_parent_class($controller)) ) {
                 if (!$obj_request->isPost())
-                    $method = 'run';
+                    $method = 'form';
                 else
                     $method = 'save_post';
             } else {
