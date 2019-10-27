@@ -2,6 +2,8 @@
 
 namespace fw_Klipso\kernel\engine\middleware;
 
+use fw_Klipso\kernel\Views\CreateView;
+
 class Urls{
     private $_pattern = array();
     private $current_url = "/";
@@ -96,11 +98,24 @@ class Urls{
         $controller = new $namespace('apps\\' . $application);
         //$controller->setPathApplication('apps\\' .$application .'\\');
 
+        $obj_request = new Request();
+
         if(empty($method)){
-            return;
+            # los controladores que heredan de las clases form no tienen implementacion de metodos en la url
+            # pero tiene definido un metodo por default
+            if ( preg_match('/CreateView/', get_parent_class($controller)) ) {
+                if (!$obj_request->isPost())
+                    $method = 'run';
+                else
+                    $method = 'save_post';
+            } else {
+                return;
+            }
+
         }
         $instans_request = false;
         $indx_instans = '';
+
         foreach ($this->_instanceMiddleware as $key => $value){
             /* verificar si el patron de url definidor en el urls.php es el mismo que la url que se esta solicitando */
             $current_url =  trim($this->current_url,'/');
@@ -121,73 +136,73 @@ class Urls{
 
         }
 
-        if( count($this->_params_controller) > 0 ){
-            /* hay que mejorar */
-            switch ( count($this->_params_controller) ) {
-                case 1:
-                    if($instans_request){
-                        $controller->$method( new Request(),
-                            $this->_instanceMiddleware[$indx_instans],
-                            $this->_params_controller[0]);
-                    }else{
-                        $controller->$method(new Request(), $this->_params_controller[0]);
-                    }
-                    break;
-                case 2:
-                    if($instans_request){
-                        $controller->$method(new Request(),
-                            $this->_instanceMiddleware[$indx_instans],
-                            $this->_params_controller[0],
-                            $this->_params_controller[1]
-                        );
-                    }else{
-                        $controller->$method(new Request(),
-                            $this->_params_controller[0],
-                            $this->_params_controller[1] );
-                    }
-
-                    break;
-                case 3:
-                    if($instans_request){
-                        $controller->$method(new Request(),
-                            $this->_instanceMiddleware[$this->current_url],
-                            $this->_params_controller[0],
-                            $this->_params_controller[1],
-                            $this->_params_controller[2] );
-                    }else{
-                        $controller->$method(new Request(),
-                            $this->_params_controller[0],
-                            $this->_params_controller[1],
-                            $this->_params_controller[2] );
-                    }
-
-                    break;
-                case 4:
-                    if($instans_request){
-                        $controller->$method(new Request(),
-                            $this->_instanceMiddleware[$this->current_url],
-                            $this->_params_controller[0],
-                            $this->_params_controller[1],
-                            $this->_params_controller[2],
-                            $this->_params_controller[3] );
-                    }else{
-                        $controller->$method( new Request(),
-                            $this->_params_controller[0],
-                            $this->_params_controller[1],
-                            $this->_params_controller[2],
-                            $this->_params_controller[3] );
-                    }
-
-                    break;
-            }
-
-        }else{
+        if( !count($this->_params_controller) > 0 ){
             if($instans_request)
-                $controller->$method(new Request(),$this->_instanceMiddleware[trim($this->current_url,'/')]);
+                $controller->$method($obj_request,$this->_instanceMiddleware[trim($this->current_url,'/')]);
             else
-                $controller->$method(new Request());
+                $controller->$method($obj_request);
+
+            return;
         }
 
+        /* hay que mejorar */
+        switch ( count($this->_params_controller) ) {
+            case 1:
+                if($instans_request){
+                    $controller->$method( $obj_request,
+                        $this->_instanceMiddleware[$indx_instans],
+                        $this->_params_controller[0]);
+                }else{
+                    $controller->$method($obj_request, $this->_params_controller[0]);
+                }
+                break;
+            case 2:
+                if($instans_request){
+                    $controller->$method($obj_request,
+                        $this->_instanceMiddleware[$indx_instans],
+                        $this->_params_controller[0],
+                        $this->_params_controller[1]
+                    );
+                }else{
+                    $controller->$method($obj_request,
+                        $this->_params_controller[0],
+                        $this->_params_controller[1] );
+                }
+
+                break;
+            case 3:
+                if($instans_request){
+                    $controller->$method($obj_request,
+                        $this->_instanceMiddleware[$this->current_url],
+                        $this->_params_controller[0],
+                        $this->_params_controller[1],
+                        $this->_params_controller[2] );
+                }else{
+                    $controller->$method($obj_request,
+                        $this->_params_controller[0],
+                        $this->_params_controller[1],
+                        $this->_params_controller[2] );
+                }
+
+                break;
+            case 4:
+                if($instans_request){
+                    $controller->$method($obj_request,
+                        $this->_instanceMiddleware[$this->current_url],
+                        $this->_params_controller[0],
+                        $this->_params_controller[1],
+                        $this->_params_controller[2],
+                        $this->_params_controller[3] );
+                }else{
+                    $controller->$method( $obj_request,
+                        $this->_params_controller[0],
+                        $this->_params_controller[1],
+                        $this->_params_controller[2],
+                        $this->_params_controller[3] );
+                }
+
+                break;
+        }
 
     }
 
